@@ -2,6 +2,13 @@ class PeopleController < ApplicationController
   # sets the person instance variable before the specified actions
   before_action :set_person, only: [:show]
 
+  def index
+    # gets all the people, sends them as a json list
+    people = Person.all
+
+    render json: PersonSerializer.new(people).to_serialized_json
+  end
+
   def show
     # send the person object to the serializer to make a json object
     if @person
