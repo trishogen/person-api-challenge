@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   # sets the person instance variable before the specified actions
-  before_action :set_person, only: [:show, :update]
+  before_action :set_person, only: [:show, :update, :destroy]
 
   def index
     # GET all the people
@@ -45,6 +45,13 @@ class PeopleController < ApplicationController
     end
   end
 
+
+  def destroy
+    # DELETE a person
+    @person.destroy
+
+    render json: {}, status: :no_content
+  end
 
   private
 
