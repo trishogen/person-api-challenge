@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   # sets the person instance variable before the specified actions
-  before_action :set_person, only: [:show]
+  before_action :set_person, only: [:show, :update]
 
   def index
     # GET all the people
@@ -33,6 +33,18 @@ class PeopleController < ApplicationController
       render json: { error: person.errors.full_messages[0] }, status: :bad_request
     end
   end
+
+  def update
+    # PUT to a person
+    if @person.update(person_params) # uses the person set using the before_action hook
+      # if the updates to the person were able to save successfully return json
+      render json: PersonSerializer.new(@person).to_serialized_json, status: :ok
+    else
+      # if the update was unable to save show the message from the first failed validation
+      render json: { error: @person.errors.full_messages[0] }, status: :bad_request
+    end
+  end
+
 
   private
 
