@@ -1,4 +1,7 @@
 class Person < ApplicationRecord
+  # hooks the model up to the versions table/paper trail gem allowing us to track versions
+  has_paper_trail
+
   # validations on Person model to handle bad inputs
   validates :first_name,
     presence: true,

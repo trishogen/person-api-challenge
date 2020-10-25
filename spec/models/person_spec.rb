@@ -29,6 +29,14 @@ RSpec.describe Person, :type => :model do
     end
   end
 
+  it "is not valid with numbers in the first or last name" do
+    # TODO: didn't get to this, but would normally implement!
+  end
+
+  it "is not valid when the first or last name are less than 2 characters" do
+    # TODO: didn't get to this, but would normally implement!
+  end
+
   it "is not valid with an invalid email" do
     frodo.email = "not an email"
     expect(frodo).not_to be_valid
