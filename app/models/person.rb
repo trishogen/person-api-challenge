@@ -15,9 +15,12 @@ class Person < ApplicationRecord
   validates :email,
     presence: true,
     uniqueness: true,
+    # "with" enables you to use regex to check the input
     format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "Invalid email"}
   validates :age,
-    # numericality validation defaults to requiring the field to not be nil, i.e. presence: true
+    # numericality validation defaults to requiring the age field to not be nil
+    # i.e. presence: true, but having presence explicitly set helps standardize error messages
+    presence: true,
     numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 130,
       only_integer: true, message: "Age must be a number between 0 and 130" }
 
