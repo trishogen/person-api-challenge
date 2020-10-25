@@ -1,4 +1,5 @@
 class PersonSerializer
+  # Turn an activerecord person/people object(s) into json
 
   def initialize(person)
     @person = person

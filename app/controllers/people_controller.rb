@@ -11,14 +11,13 @@ class PeopleController < ApplicationController
   end
 
   def show
-    # GET 1 person
+    # GET a person
     if @person # uses the person set using the before_action hook
       # send the person object to the serializer to make a json object
       render json: PersonSerializer.new(@person).to_serialized_json, status: :ok
     else
       render json: { error: "Person not found" }, status: :not_found
     end
-
   end
 
   def create
