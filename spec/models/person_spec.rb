@@ -62,4 +62,39 @@ RSpec.describe Person, :type => :model do
     end
   end
 
+  it "has class method 'version_request_valid' that checks if both ids are positive ints" do
+    expect(Person.version_request_valid(1,1)).to be true
+    expect(Person.version_request_valid(-1, 1)).to be false
+    expect(Person.version_request_valid(1.1, 1)).to be false
+    expect(Person.version_request_valid(1, "apple")).to be false
+  end
+
+  it "has class method 'find_version' that finds a Person in history with one version" do
+    expect(Person.find_version(frodo.id, 1)).to eq(frodo)
+  end
+
+  it "has class method 'find_version' that can find a previous version of a person" do
+    old_frodo = frodo.clone.freeze
+    frodo.middle_name = "Mr. Underhill"
+    frodo.save
+    expect(Person.find_version(frodo.id, 1)).to eq(old_frodo)
+    expect(Person.find_version(frodo.id, 2)).to eq(frodo)
+  end
+
+  it "has class method 'find_version' that can find a deleted person" do
+    old_frodo = frodo.clone.freeze
+    frodo.destroy
+    expect(Person.find_version(frodo.id, 1)).to eq(old_frodo)
+  end
+
+  it "has class method 'find_version' that returns nil when it can't find
+    the person and version combo" do
+    frodo # ensure there's at least 1 person
+    last_person = Person.all.last
+    # used to make sure we get a larger version number
+    num_frodo_versions = frodo.versions.size
+
+    expect(Person.find_version(last_person.id + 1, 1)).to eq(nil)
+    expect(Person.find_version(last_person.id, frodo_versions + 1)).to eq(nil)
+  end
 end

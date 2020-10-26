@@ -20,6 +20,21 @@ class PeopleController < ApplicationController
     end
   end
 
+  def show_version
+    # GET a person by their version number
+    # This is a nested route, we need to use person_id and id (version id)
+    person = Person.find_version(params[:person_id], params[:id])
+
+    if person
+      # send the person object to the serializer to make a json object
+      render json: PersonSerializer.new(person).to_serialized_json,
+        status: :ok
+    else
+      render json: { error: "This version of this person could not be found" },
+        status: :not_found
+    end
+  end
+
   def create
     # POST to people
     person = Person.new(person_params) # initialize new person with strong params
@@ -62,7 +77,7 @@ class PeopleController < ApplicationController
 
   def set_person
     # finds a given person by their ID
-    @person = Person.find(params[:id])
+    @person = Person.find_by(id: params[:id])
   end
 
 end
