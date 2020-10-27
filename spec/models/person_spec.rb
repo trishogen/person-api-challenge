@@ -95,6 +95,6 @@ RSpec.describe Person, :type => :model do
     num_frodo_versions = frodo.versions.size
 
     expect(Person.find_version(last_person.id + 1, 1)).to eq(nil)
-    expect(Person.find_version(last_person.id, frodo_versions + 1)).to eq(nil)
+    expect(Person.find_version(last_person.id, num_frodo_versions + 1)).to eq(nil)
   end
 end
